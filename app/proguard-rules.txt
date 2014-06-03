@@ -5,11 +5,6 @@
 -dontskipnonpubliclibraryclasses
 -verbose
 
-# Optimization is turned off by default. Dex does not like code run
-# through the ProGuard optimize and preverify steps (and performs some
-# of these optimizations on its own).
--dontoptimize
--dontpreverify
 
 # Keep a fixed source file attribute and all line number tables to get line
 # numbers in the stack traces.
@@ -63,3 +58,41 @@
 # Don't warn about those in case this app is linking against an older
 # platform version.  We know about them, and they are safe.
 -dontwarn android.support.**
+-dontwarn javax.naming.**
+
+# remove logging
+-assumenosideeffects class android.util.Log {
+    *;
+}
+
+# keep zxing packages
+-keep class com.google.zxing.**
+
+# butterknife configuration
+# -dontwarn butterknife.internal.**
+# -keep class **$$ViewInjector { *; }
+# -keepnames class * { @butterknife.InjectView *;}
+
+-dontwarn butterknife.internal.**
+-keep class butterknife.** { *; }
+-keep class **$$ViewInjector { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.InjectView <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.OnClick <methods>;
+    @butterknife.OnEditorAction <methods>;
+    @butterknife.OnItemClick <methods>;
+    @butterknife.OnItemLongClick <methods>;
+    @butterknife.OnLongClick <methods>;
+}
+
+
+#repackage & optimize
+-repackageclasses ""
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+-optimizationpasses 5
+-allowaccessmodification
+-dontpreverify

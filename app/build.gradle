@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.10.1'
@@ -12,7 +11,6 @@ buildscript {
 allprojects {
     repositories {
         mavenCentral()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
 }
 
@@ -22,12 +20,11 @@ apply plugin: 'android-test'
 android {
     compileSdkVersion 19
     buildToolsVersion '19.1.0'
-
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 19
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
     }
     buildTypes {
         debug {
@@ -39,20 +36,36 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-
     sourceSets {
         androidTest.setRoot('src/test')
+    }
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+    }
+    productFlavors {
     }
 }
 
 dependencies {
+    // ================== LIBRARIES ======================
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile 'com.android.support:appcompat-v7:+'
+    //for more information on the Butterknife injection framework
+    //visit https://github.com/JakeWharton/butterknife
+    compile 'com.jakewharton:butterknife:5.1.0'
+    // for more information on the Crouton framework,
+    // visit https://github.com/keyboardsurfer/Crouton
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
 
+
+
+    // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'
     androidTestCompile 'org.robolectric:robolectric:2.3'
     androidTestCompile 'com.squareup:fest-android:1.0.+'
-
+    androidTestCompile 'org.bouncycastle:bcprov-jdk15on:1.50'
+    androidTestCompile 'com.jakewharton:butterknife:5.1.0'
 }
 
 androidTest {

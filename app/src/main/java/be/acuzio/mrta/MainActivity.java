@@ -1,65 +1,57 @@
 package be.acuzio.mrta;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+import android.util.Log;
+import android.widget.EditText;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class MainActivity extends Activity {
+    private final static String TAG = MainActivity.class.getSimpleName();
+
+    @InjectView(R.id.et_message)
+    EditText etStatusMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+        ButterKnife.inject(this);
+
+        //you can start working with the annotated widgets after you injected them
+
+        Log.d(TAG, "onCreate completed");
     }
 
 
+    @OnClick(R.id.btn_show_alert)
+    public void showAlertCrouton() {
+        Crouton.showText(MainActivity.this, "You just clicked on the ALERT crouton button!", Style.ALERT);
+
+        etStatusMessage.setText("Did you see the ALERT crouton?");
+
+        Log.d(TAG, "showAlertCrouton was clicked");
+    }
+
+    @OnClick(R.id.btn_show_info)
+    public void showInfoCrouton() {
+        Crouton.showText(MainActivity.this, "You invoked the INFO crouton!", Style.INFO);
+
+        etStatusMessage.setText("And thus appeared the info crouton!");
+
+        Log.d(TAG, "showInfoCrouton was clicked");
+    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy invoked");
         
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        Crouton.cancelAllCroutons();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-    }
-
 }
