@@ -1,10 +1,14 @@
 buildscript {
     repositories {
         mavenCentral()
+        //required to get the plugin working again with gradle:0.11+ and AS0.6.0
+        maven { url 'https://github.com/rockerhieu/mvn-repo/raw/master/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.10.1'
-        classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.0'
+        classpath 'com.android.tools.build:gradle:0.11.+'
+        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.+'
+        //required to get the plugin working again on AS 0.6.0
+        classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.1-SNAPSHOT'
     }
 }
 
