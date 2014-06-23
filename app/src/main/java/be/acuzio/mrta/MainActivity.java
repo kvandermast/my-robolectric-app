@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 
+import be.acuzio.mrta.util.Logger;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -26,7 +27,11 @@ public class MainActivity extends Activity {
 
         //you can start working with the annotated widgets after you injected them
 
-        Log.d(TAG, "onCreate completed");
+        Log.d(TAG, "Log1 - onCreate completed");
+        Logger.d(TAG, "Log2 - onCreate completed");
+
+        Log.d(TAG, "Log3 - onCreate was called from class " + TAG);
+        Logger.d(TAG, "Log4 - onCreate was called from class %s", TAG);
     }
 
 

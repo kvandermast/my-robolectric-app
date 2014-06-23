@@ -65,6 +65,12 @@
     *;
 }
 
+# remove logging wrapper
+-assumenosideeffects class be.acuzio.mrta.util.Logger {
+    *;
+}
+
+
 # keep zxing packages
 -keep class com.google.zxing.**
 

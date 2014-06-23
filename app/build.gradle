@@ -2,13 +2,14 @@ buildscript {
     repositories {
         mavenCentral()
         //required to get the plugin working again with gradle:0.11+ and AS0.6.0
-        maven { url 'https://github.com/rockerhieu/mvn-repo/raw/master/' }
+        //maven { url 'https://github.com/rockerhieu/mvn-repo/raw/master/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.11.+'
         //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.+'
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
         //required to get the plugin working again on AS 0.6.0
-        classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.1-SNAPSHOT'
+        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.1-SNAPSHOT'
     }
 }
 
@@ -19,7 +20,7 @@ allprojects {
 }
 
 apply plugin: 'android'
-apply plugin: 'android-test'
+apply plugin: 'robolectric'
 
 android {
     compileSdkVersion 19
@@ -33,11 +34,11 @@ android {
     buildTypes {
         debug {
             runProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles 'proguard-rules.txt'
         }
         release {
             runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles 'proguard-rules.txt'
         }
     }
     sourceSets {
@@ -72,7 +73,16 @@ dependencies {
     androidTestCompile 'com.jakewharton:butterknife:5.1.0'
 }
 
-androidTest {
+//androidTest {
+//    include '**/*Test.class'
+//    maxHeapSize = "2048m"
+//}
+
+robolectric {
+    // configure the set of classes for JUnit tests
     include '**/*Test.class'
+    //exclude '**/espresso/**/*.class'
+
+    // configure max heap size of the test JVM
     maxHeapSize = "2048m"
 }
