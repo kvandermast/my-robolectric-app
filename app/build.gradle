@@ -5,7 +5,7 @@ buildscript {
         //maven { url 'https://github.com/rockerhieu/mvn-repo/raw/master/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.11.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
         //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.+'
         classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
         //required to get the plugin working again on AS 0.6.0
@@ -19,15 +19,15 @@ allprojects {
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'robolectric'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 20
         versionCode 1
         versionName '1.0'
     }
@@ -55,15 +55,23 @@ android {
 dependencies {
     // ================== LIBRARIES ======================
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    compile 'com.android.support:appcompat-v7:+'
+
+    //Using the appcompat library is not necessary when the minsdk >= 14
+    //compile 'com.android.support:appcompat-v7:+'
+
+    //ignore lint complaining about an update: 21.+ is still in release candidate state
+    compile 'com.android.support:support-v4:20.+'
+
     //for more information on the Butterknife injection framework
     //visit https://github.com/JakeWharton/butterknife
     compile 'com.jakewharton:butterknife:5.1.0'
+
     // for more information on the Crouton framework,
     // visit https://github.com/keyboardsurfer/Crouton
-    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4'
-
-
+    //a fix for: Module version de.keyboardsurfer.android.widget:crouton:1.8.4 depends on libraries but is not a library itself
+    compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
 
     // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'
