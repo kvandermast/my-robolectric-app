@@ -35,10 +35,12 @@ android {
         debug {
             runProguard true
             proguardFiles 'proguard-rules.txt'
+            testCoverageEnabled = true
         }
         release {
             runProguard false
             proguardFiles 'proguard-rules.txt'
+            testCoverageEnabled = false
         }
     }
     sourceSets {
@@ -81,11 +83,6 @@ dependencies {
     androidTestCompile 'com.jakewharton:butterknife:5.1.0'
 }
 
-//androidTest {
-//    include '**/*Test.class'
-//    maxHeapSize = "2048m"
-//}
-
 robolectric {
     // configure the set of classes for JUnit tests
     include '**/*Test.class'
@@ -93,4 +90,39 @@ robolectric {
 
     // configure max heap size of the test JVM
     maxHeapSize = "2048m"
+}
+
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
+def coverageSourceDirs = [
+        '../app/src/main/java'
+]
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: '../app/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('../app/build/jacoco/testDebug.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
 }
