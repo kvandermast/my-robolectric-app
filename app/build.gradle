@@ -1,15 +1,10 @@
 buildscript {
     repositories {
         mavenCentral()
-        //required to get the plugin working again with gradle:0.11+ and AS0.6.0
-        //maven { url 'https://github.com/rockerhieu/mvn-repo/raw/master/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
-        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.+'
-        classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
-        //required to get the plugin working again on AS 0.6.0
-        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.1-SNAPSHOT'
+        classpath 'com.android.tools.build:gradle:0.14.1'
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.12.0'
     }
 }
 
@@ -27,7 +22,7 @@ android {
     buildToolsVersion '20.0.0'
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 20
+        targetSdkVersion 21
         versionCode 1
         versionName '1.0'
     }
@@ -62,7 +57,7 @@ dependencies {
     //compile 'com.android.support:appcompat-v7:+'
 
     //ignore lint complaining about an update: 21.+ is still in release candidate state
-    compile 'com.android.support:support-v4:20.+'
+    compile 'com.android.support:support-v4:21.0.0'
 
     //for more information on the Butterknife injection framework
     //visit https://github.com/JakeWharton/butterknife
@@ -78,7 +73,6 @@ dependencies {
     // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'
     androidTestCompile 'org.robolectric:robolectric:2.3'
-    androidTestCompile 'com.squareup:fest-android:1.0.+'
     androidTestCompile 'org.bouncycastle:bcprov-jdk15on:1.50'
     androidTestCompile 'com.jakewharton:butterknife:5.1.0'
 }
