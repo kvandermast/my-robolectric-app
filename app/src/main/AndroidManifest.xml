@@ -31,7 +31,10 @@
 
         <activity
             android:name=".WidgetActivity"
-            android:label="@string/title_activity_widget"></activity>
+            android:label="@string/title_activity_widget" />
+        <activity
+            android:name=".LocalBroadcastActivity"
+            android:label="@string/title_activity_local_broadcast"></activity>
     </application>
 
 </manifest>

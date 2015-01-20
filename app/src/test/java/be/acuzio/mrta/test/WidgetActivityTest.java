@@ -47,4 +47,6 @@ public class WidgetActivityTest {
         Assert.assertEquals(editText.getText().toString(), "!dlrow olleH");
 
     }
+
+
 }
