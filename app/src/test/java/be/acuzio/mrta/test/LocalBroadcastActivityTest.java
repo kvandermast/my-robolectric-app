@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowApplication;
 import org.robolectric.shadows.ShadowToast;
 
 import be.acuzio.mrta.LocalBroadcastActivity;
@@ -22,12 +22,15 @@ import be.acuzio.mrta.LocalBroadcastActivity;
 /**
  * Created by vandekr on 11/02/14.
  */
-@Config(emulateSdk = 18)
-@RunWith(RobolectricTestRunner.class)
+@Config(emulateSdk = 21, constants = be.acuzio.mrta.BuildConfig.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class LocalBroadcastActivityTest {
+    private Context context;
+
     @Before
     public void setup() {
         //do whatever is necessary before every test
+        this.context = new ShadowApplication().getApplicationContext();
     }
 
     @Test
@@ -51,7 +54,9 @@ public class LocalBroadcastActivityTest {
 
     @Test
     public void testLocalReceiver() {
-        LocalBroadcastManager instance = LocalBroadcastManager.getInstance(Robolectric.application);
+        Activity activity = Robolectric.buildActivity(LocalBroadcastActivity.class).create().resume().get();
+
+        LocalBroadcastManager instance = LocalBroadcastManager.getInstance(activity);
         final boolean[] called = new boolean[1];
         final BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override

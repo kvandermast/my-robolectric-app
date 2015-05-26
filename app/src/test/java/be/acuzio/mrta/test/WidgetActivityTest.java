@@ -10,14 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import be.acuzio.mrta.R;
 import be.acuzio.mrta.WidgetActivity;
 
-@Config(emulateSdk = 18)
-@RunWith(RobolectricTestRunner.class)
+
+@Config(emulateSdk = 21, constants = be.acuzio.mrta.BuildConfig.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class WidgetActivityTest {
     @Before
     public void setup() {
@@ -47,6 +47,4 @@ public class WidgetActivityTest {
         Assert.assertEquals(editText.getText().toString(), "!dlrow olleH");
 
     }
-
-
 }

@@ -8,8 +8,6 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowApplication;
 import org.robolectric.shadows.ShadowLog;
@@ -18,21 +16,24 @@ import java.util.List;
 
 import be.acuzio.mrta.receiver.MyBroadcastReceiver;
 import be.acuzio.mrta.service.MyBroadcastIntentService;
+import be.acuzio.mrta.test.RobolectricGradleTestRunner;
 
 /**
  * Created by vandekr on 12/02/14.
  */
 @Config(emulateSdk = 18)
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class MyBroadcastReceiverTest {
     static {
         // redirect the Log.x output to stdout. Stdout will be recorded in the test result report
         ShadowLog.stream = System.out;
     }
 
+    private ShadowApplication application;
+
     @Before
     public void setup() {
-
+        application = new ShadowApplication();
     }
 
     /**
@@ -41,7 +42,8 @@ public class MyBroadcastReceiverTest {
      */
     @Test
     public void testBroadcastReceiverRegistered() {
-        List<ShadowApplication.Wrapper> registeredReceivers = Robolectric.getShadowApplication().getRegisteredReceivers();
+
+        List<ShadowApplication.Wrapper> registeredReceivers = this.application.getRegisteredReceivers(); //Robolectric.getShadowApplication().getRegisteredReceivers();
 
         Assert.assertFalse(registeredReceivers.isEmpty());
 
@@ -67,7 +69,7 @@ public class MyBroadcastReceiverTest {
          */
         Intent intent = new Intent("com.google.android.c2dm.intent.RECEIVE");
 
-        ShadowApplication shadowApplication = Robolectric.getShadowApplication();
+        ShadowApplication shadowApplication = this.application;
         Assert.assertTrue(shadowApplication.hasReceiverForIntent(intent));
 
         /**
@@ -86,9 +88,9 @@ public class MyBroadcastReceiverTest {
          * Next call the "onReceive" method and check if the MyBroadcastIntentService was started
          */
         MyBroadcastReceiver receiver = (MyBroadcastReceiver) receiversForIntent.get(0);
-        receiver.onReceive(Robolectric.getShadowApplication().getApplicationContext(), intent);
+        receiver.onReceive(this.application.getApplicationContext(), intent);
 
-        Intent serviceIntent = Robolectric.getShadowApplication().peekNextStartedService();
+        Intent serviceIntent = this.application.peekNextStartedService();
         Assert.assertEquals("Expected the MyBroadcast service to be invoked",
                 MyBroadcastIntentService.class.getCanonicalName(),
                 serviceIntent.getComponent().getClassName());
