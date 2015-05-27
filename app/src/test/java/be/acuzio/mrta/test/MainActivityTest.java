@@ -25,7 +25,7 @@ public class MainActivityTest {
 
     @Test
     public void testActivityFound() {
-        Activity activity = Robolectric.buildActivity(MainActivity.class).create().get();
+        Activity activity = Robolectric.setupActivity(MainActivity.class);
 
         Assert.assertNotNull(activity);
     }

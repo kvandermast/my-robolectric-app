@@ -27,7 +27,7 @@ public class WidgetActivityTest {
     @Test
     public void testReverse() {
         //get the ShadowActivity
-        Activity activity = Robolectric.buildActivity(WidgetActivity.class).create().get();
+        Activity activity = Robolectric.setupActivity(WidgetActivity.class);
 
         Assert.assertNotNull(activity);
 

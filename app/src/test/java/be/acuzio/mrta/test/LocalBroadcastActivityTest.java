@@ -35,14 +35,14 @@ public class LocalBroadcastActivityTest {
 
     @Test
     public void testActivityFound() {
-        Activity activity = Robolectric.buildActivity(LocalBroadcastActivity.class).create().get();
+        Activity activity = Robolectric.setupActivity(LocalBroadcastActivity.class); //Robolectric.buildActivity(LocalBroadcastActivity.class).create().get();
 
         Assert.assertNotNull(activity);
     }
 
     @Test
     public void testBroadcastReceiverRegistered() {
-        Activity activity = Robolectric.buildActivity(LocalBroadcastActivity.class).create().resume().get();
+        Activity activity = Robolectric.setupActivity(LocalBroadcastActivity.class);
 
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(activity);
 
@@ -54,7 +54,7 @@ public class LocalBroadcastActivityTest {
 
     @Test
     public void testLocalReceiver() {
-        Activity activity = Robolectric.buildActivity(LocalBroadcastActivity.class).create().resume().get();
+        Activity activity = Robolectric.setupActivity(LocalBroadcastActivity.class);
 
         LocalBroadcastManager instance = LocalBroadcastManager.getInstance(activity);
         final boolean[] called = new boolean[1];

@@ -24,7 +24,7 @@ import be.acuzio.mrta.test.RobolectricGradleTestRunner;
 /**
  * Created by vandekr on 12/02/14.
  */
-@Config(emulateSdk = 18)
+@Config(emulateSdk = 21, constants = be.acuzio.mrta.BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class MyBroadcastIntentServiceTest {
     static {
@@ -36,7 +36,7 @@ public class MyBroadcastIntentServiceTest {
 
     @Before
     public void setup() {
-        this.application = new ShadowApplication();
+        this.application = ShadowApplication.getInstance();
         this.context = this.application.getApplicationContext();
     }
 
