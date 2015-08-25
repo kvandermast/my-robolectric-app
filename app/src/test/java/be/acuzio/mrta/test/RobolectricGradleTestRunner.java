@@ -5,7 +5,8 @@ import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.manifest.AndroidManifest;
-import org.robolectric.res.Fs;
+import org.robolectric.res.FileFsFile;
+import org.robolectric.res.FsFile;
 
 public class RobolectricGradleTestRunner extends RobolectricTestRunner {
 
@@ -17,33 +18,27 @@ public class RobolectricGradleTestRunner extends RobolectricTestRunner {
 
     @Override
     protected AndroidManifest getAppManifest(Config config) {
-        String manifestProperty = System.getProperty("android.manifest");
-        AndroidManifest manifest;
+        AndroidManifest manifest = super.getAppManifest(config);
 
+        FsFile androidManifestFile = manifest != null ? manifest.getAndroidManifestFile() : null;
 
-        if (config.manifest().equals(Config.DEFAULT) && manifestProperty != null) {
-            String resProperty = System.getProperty("android.resources");
-            String assetsProperty = System.getProperty("android.assets");
-
-            manifest = new AndroidManifest(Fs.fileFromPath(manifestProperty), Fs.fileFromPath(resProperty),
-                    Fs.fileFromPath(assetsProperty));
-
-        } else {
-
-            String myAppPath = RobolectricGradleTestRunner.class.getProtectionDomain()
-                    .getCodeSource()
-                    .getLocation()
-                    .getPath();
-
-            String manifestPath = myAppPath + "../../../src/main/AndroidManifest.xml";
-            String resPath = myAppPath + "../../../src/main/res";
-            String assetPath = myAppPath + "../../../src/main/assets";
-
-            manifest = createAppManifest(Fs.fileFromPath(manifestPath), Fs.fileFromPath(resPath), Fs.fileFromPath(assetPath));
+        if (null != androidManifestFile && androidManifestFile.exists()) {
+            return manifest;
         }
 
-        return manifest;
+        String moduleRoot = getModuleRootPath(config);
+
+        androidManifestFile = FileFsFile.from(moduleRoot, "src/main/AndroidManifest.xml");
+        FsFile resDir = FileFsFile.from(moduleRoot, "src/main/res");
+        FsFile assetsDir = FileFsFile.from(moduleRoot, "src/main/assets");
+
+        return new AndroidManifest(androidManifestFile, resDir, assetsDir, "be.acuzio.mrta");
     }
 
 
+    private String getModuleRootPath(Config config) {
+        String moduleRoot = config.constants().getResource("").toString().replace("file:", "");
+        return moduleRoot.substring(0, moduleRoot.indexOf("/build"));
+
+    }
 }

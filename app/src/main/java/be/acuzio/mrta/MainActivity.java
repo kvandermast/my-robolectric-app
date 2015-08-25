@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import be.acuzio.mrta.util.Logger;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class MainActivity extends Activity {
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -36,8 +35,8 @@ public class MainActivity extends Activity {
 
 
     @OnClick(R.id.btn_show_alert)
-    public void showAlertCrouton() {
-        Crouton.showText(MainActivity.this, "You just clicked on the ALERT crouton button!", Style.ALERT);
+    public void showAlertToast() {
+        Toast.makeText(MainActivity.this, "You just clicked on the ALERT toast button!", Toast.LENGTH_LONG).show();
 
         etStatusMessage.setText("Did you see the ALERT crouton?");
 
@@ -46,7 +45,7 @@ public class MainActivity extends Activity {
 
     @OnClick(R.id.btn_show_info)
     public void showInfoCrouton() {
-        Crouton.showText(MainActivity.this, "You invoked the INFO crouton!", Style.INFO);
+        Toast.makeText(MainActivity.this, "You just clicked on the INFO toast button!", Toast.LENGTH_LONG).show();
 
         etStatusMessage.setText("And thus appeared the info crouton!");
 
@@ -55,8 +54,8 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
+
         Log.d(TAG, "onDestroy invoked");
-        
-        Crouton.cancelAllCroutons();
     }
 }

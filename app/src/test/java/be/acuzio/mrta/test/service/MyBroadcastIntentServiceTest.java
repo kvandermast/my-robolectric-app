@@ -24,7 +24,7 @@ import be.acuzio.mrta.test.RobolectricGradleTestRunner;
 /**
  * Created by vandekr on 12/02/14.
  */
-@Config(emulateSdk = 21, constants = be.acuzio.mrta.BuildConfig.class)
+@Config(sdk = 21, constants = be.acuzio.mrta.BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class MyBroadcastIntentServiceTest {
     static {

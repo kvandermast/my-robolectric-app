@@ -22,7 +22,7 @@ import be.acuzio.mrta.LocalBroadcastActivity;
 /**
  * Created by vandekr on 11/02/14.
  */
-@Config(emulateSdk = 21, constants = be.acuzio.mrta.BuildConfig.class)
+@Config(sdk = 21, constants = be.acuzio.mrta.BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class LocalBroadcastActivityTest {
     private Context context;

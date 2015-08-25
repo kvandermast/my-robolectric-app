@@ -3,8 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
+        classpath 'com.android.tools.build:gradle:1.3.0'
     }
 }
 
@@ -15,14 +14,13 @@ allprojects {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'org.robolectric'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 23
     buildToolsVersion '21.1.2'
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName '1.0'
     }
@@ -47,6 +45,12 @@ android {
     }
     productFlavors {
     }
+
+    //!! REMARK !!
+    //add this library to work with Robolectric 3.0 when your API level >= 23.
+    //the HttpClient has been removed as of API Level 23, but Robolectric is automatically
+    //shadowing this class. So add it, even though you're not using it.
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
@@ -56,28 +60,21 @@ dependencies {
     //Using the appcompat library is not necessary when the minsdk >= 14
     //compile 'com.android.support:appcompat-v7:+'
 
-    //ignore lint complaining about an update: 21.+ is still in release candidate state
-    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.android.support:support-v4:23.0.0'
 
     //for more information on the Butterknife injection framework
     //visit https://github.com/JakeWharton/butterknife
     compile 'com.jakewharton:butterknife:6.1.0'
 
-    // for more information on the Crouton framework,
-    // visit https://github.com/keyboardsurfer/Crouton
-    //a fix for: Module version de.keyboardsurfer.android.widget:crouton:1.8.4 depends on libraries but is not a library itself
-    compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
-        exclude group: 'com.google.android', module: 'support-v4'
-    }
 
     // ================== TESTING LIBRARIES ======================
     testCompile 'junit:junit:4.10'
-    testCompile 'org.robolectric:robolectric:3.0-rc2'
+    testCompile 'org.robolectric:robolectric:3.0'
 
     testCompile 'org.bouncycastle:bcprov-jdk15on:1.50'
     testCompile 'com.jakewharton:butterknife:6.1.0'
 
-    androidTestCompile 'org.robolectric:robolectric:3.0-rc2'
+    androidTestCompile 'org.robolectric:robolectric:3.0'
 
 }
 

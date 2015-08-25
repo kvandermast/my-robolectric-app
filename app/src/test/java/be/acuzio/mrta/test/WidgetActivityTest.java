@@ -16,7 +16,7 @@ import be.acuzio.mrta.R;
 import be.acuzio.mrta.WidgetActivity;
 
 
-@Config(emulateSdk = 21, constants = be.acuzio.mrta.BuildConfig.class)
+@Config(sdk = 21, constants = be.acuzio.mrta.BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class WidgetActivityTest {
     @Before
